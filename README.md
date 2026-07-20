@@ -70,7 +70,7 @@ the devcontainer builds the same Dockerfile (builder stage), forwards port
 | `src/match/`    | Matching. Embeddings, the FAISS vector store, and the deterministic match engine that produces the ranking. |
 | `src/agent/`    | Agent runtime. Generates grounded, cited template rationales from matched profile data, behind a swappable AgentRuntime interface. |
 | `src/api/`      | FastAPI app. `POST /match` (rank + rationales) and `GET /health`. |
-| `docs/`         | `architecture.md` (system design) and `contracts.md` (the JSON shapes passed between layers). |
+| `docs/`         | `architecture.md` (system design), `contracts.md` (the JSON shapes passed between layers), `evaluation.md` (known-item sanity test: ten ground-truth queries with expected researchers, awaiting execution), `Group 8 - TM1 - Narrative.pdf` (the TM1 architecture narrative), and `evidence/` (deployment evidence capture checklist and artifacts). |
 | `tests/`        | Test suite. |
 | `PROVENANCE.md` | Log of human vs. AI-generated code, per course policy. |
 
@@ -89,8 +89,8 @@ the devcontainer builds the same Dockerfile (builder stage), forwards port
    recorded in `PROVENANCE.md` per course policy — what was generated, how AI
    was used, and whether the team has reviewed it.
 5. **The ingestion corpus is bounded.** Works published 2021 or later, from
-   2–3 departments (approximately 100 authors), capped at the 20 most recent
-   works per author. The department cut is implemented via a seeded author
+   three departments (MLD, LTI, HCII) (approximately 100 authors), capped at
+   the 20 most recent works per author. The department cut is implemented via a seeded author
    list, since OpenAlex does not filter by department.
 6. **Data is baked in at build time.** Ingestion and embedding run at
    `docker build` time and the FAISS index ships inside the image, so a fresh
