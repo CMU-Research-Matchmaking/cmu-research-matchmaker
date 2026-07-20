@@ -18,23 +18,47 @@ git clone <repo-url> cmu-research-matchmaker
 cd cmu-research-matchmaker
 ```
 
-Then either:
+Build and run (ingestion + embedding happen at build time; the image serves
+with no separate data step):
 
-- **Devcontainer (recommended):** open the folder in VS Code and choose
-  "Reopen in Container". The devcontainer builds the same image used
-  everywhere else and drops you into it.
-- **Plain Docker:**
+```bash
+docker build -t research-matchmaker . && docker run -p 8000:8000 research-matchmaker
+```
 
-  ```bash
-  docker build -t cmu-research-matchmaker .
-  docker run --rm -p 8000:8000 cmu-research-matchmaker
-  ```
+> The first build downloads the embedding model and Python dependencies and
+> takes a few minutes; subsequent builds hit the Docker layer cache.
 
-The API is then at `http://localhost:8000` — `POST /match` with a student
-interest query returns ranked matches; `GET /health` returns `{"status": "ok"}`.
+Then ask it a question:
 
-> **Note:** the Dockerfile and devcontainer config are not in the repo yet
-> (next step in the scaffold). Until they land, the commands above won't run.
+```bash
+curl -X POST localhost:8000/match -H "Content-Type: application/json" -d '{"question": "who works on machine learning systems?"}'
+```
+
+which returns a contract-shaped `RankedAnswer` (see `docs/contracts.md`):
+
+```json
+{
+  "query_id": "…",
+  "degraded_mode": false,
+  "search_effort_used": "off",
+  "results": [
+    {
+      "author_id": "https://openalex.org/A…",
+      "name": "…",
+      "rank": 1,
+      "rationale": "…",
+      "grounded_citations": [{ "work_id": "…", "title": "…" }],
+      "web_enrichment": []
+    }
+  ]
+}
+```
+
+`GET /health` returns `{"status": "ok"}`.
+
+For development, open the folder in VS Code and choose "Reopen in Container" —
+the devcontainer builds the same Dockerfile (builder stage), forwards port
+8000, and installs dev tooling from `requirements-dev.txt`.
 
 ## Repo structure
 
