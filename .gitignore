@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/devcontainer.json
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Vector index artifacts (rebuildable, never committed)
+*.faiss
+*.index
+
+# Model caches
+.cache/
+models/
+model_cache/
+huggingface/
+sentence_transformers/
