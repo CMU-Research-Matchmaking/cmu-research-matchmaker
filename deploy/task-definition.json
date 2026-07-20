@@ -1,0 +1,30 @@
+{
+  "family": "research-matchmaker",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "taskRoleArn": "arn:aws:iam::__ACCOUNT_ID__:role/LabRole",
+  "executionRoleArn": "arn:aws:iam::__ACCOUNT_ID__:role/LabRole",
+  "containerDefinitions": [
+    {
+      "name": "research-matchmaker",
+      "image": "__IMAGE_URI__",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/research-matchmaker",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
