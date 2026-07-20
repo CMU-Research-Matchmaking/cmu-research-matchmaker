@@ -94,6 +94,27 @@ with no useful error.
 
 ## Troubleshooting
 
+**Running from Windows (Git Bash)**
+The script works from Git Bash with two things to know, both learned on
+the first live run:
+
+- The AWS CLI must be installed on the Windows host
+  (https://awscli.amazonaws.com/AWSCLIV2.msi) — the devcontainer's CLI
+  doesn't help here, because the deploy uses the host's Docker daemon and
+  the host's `~/.aws/credentials`. Open a fresh Git Bash window after
+  installing so PATH updates.
+- Run it plainly: `bash deploy/deploy.sh`. Do not set `MSYS_NO_PATHCONV`
+  — it breaks the Docker build context path. The script already handles
+  the two Windows path issues internally: the rendered task definition is
+  written to `deploy/task-definition.rendered.json` (a path the native
+  `aws.exe` can read, deleted after registration) instead of MinGW's
+  `/tmp`, and the path is converted with `cygpath` before being handed to
+  the AWS CLI. Both are no-ops on Mac/Linux.
+
+One more Windows habit: create `~/.aws/credentials` from the terminal
+(`notepad ~/.aws/credentials`) rather than a Save As dialog, which tends
+to append `.txt` — the CLI won't find `credentials.txt`.
+
 **"Could not verify AWS credentials" / `ExpiredToken` / `InvalidClientTokenId`**
 Your session token has expired (they die with the lab session, and mid-lab
 timeouts happen too). Symptom: every `aws` call fails with an auth error,

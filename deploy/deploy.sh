@@ -73,9 +73,10 @@ else
 fi
 
 step "Register task definition (LabRole as task AND execution role)"
-TASK_DEF_TMP=$(mktemp)
+TASK_DEF_TMP="$SCRIPT_DIR/task-definition.rendered.json"
 sed -e "s|__ACCOUNT_ID__|$ACCOUNT_ID|g" -e "s|__IMAGE_URI__|$IMAGE_URI|g" \
   "$SCRIPT_DIR/task-definition.json" > "$TASK_DEF_TMP"
+command -v cygpath >/dev/null && TASK_DEF_TMP="$(cygpath -m "$TASK_DEF_TMP")"
 TASK_DEF_ARN=$(aws ecs register-task-definition --cli-input-json "file://$TASK_DEF_TMP" \
   --query 'taskDefinition.taskDefinitionArn' --output text)
 rm -f "$TASK_DEF_TMP"

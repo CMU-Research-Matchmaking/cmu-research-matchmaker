@@ -1,0 +1,20 @@
+
+==> Verify AWS credentials
+
+==> Scale service 'matchmaker-service' to 0 and delete it
+Service deleted (tasks are stopping).
+
+==> Wait for tasks to stop
+No tasks remain in the cluster.
+
+==> Delete cluster 'matchmaker-cluster'
+Cluster deleted.
+
+ECR repository 'research-matchmaker' kept (stored images cost little and speed
+up the next deploy). Pass --delete-ecr to remove it too.
+
+================================================================
+Teardown complete. Double-check in the console that the ECS cluster
+shows no running tasks. The 'matchmaker-8000' security group and the
+CloudWatch log group are retained; neither accrues meaningful cost.
+================================================================

@@ -1,0 +1,5 @@
+Image: research-matchmaker:latest, 2.2GB (docker images, local build)
+ECR digest: sha256:0d187d00be2d2bf485d0760d257d089e70cb916cd6494f4c35b3c0bb517f0bc3
+Task: ECS Fargate, 0.5 vCPU / 1024 MB (deploy/task-definition.json)
+Roles: LabRole as task role and execution role
+Region: us-east-1, account 761427941616
