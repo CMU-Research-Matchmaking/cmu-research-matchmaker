@@ -1,0 +1,24 @@
+// Dev container: builds the SAME Dockerfile as production, stopped at the
+// builder stage, so the dev environment has full deps + source and stays
+// faithful to the "container is the unit of truth" convention.
+//
+// AWS credentials: the Learner Lab issues fresh session credentials each lab
+// session. Paste them into ~/.aws/credentials inside the container (profile
+// [default]), INCLUDING aws_session_token — they expire with the session.
+{
+    "name": "cmu-research-matchmaker",
+    "build": {
+        "context": "..",
+        "dockerfile": "../Dockerfile",
+        "target": "builder"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "os-provided"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/aws-cli:1": {}
+    },
+    "forwardPorts": [8000],
+    "postCreateCommand": "pip install -r requirements-dev.txt"
+}
